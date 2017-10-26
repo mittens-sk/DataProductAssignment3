@@ -1,0 +1,51 @@
+---
+title: "Third Assignment"
+author: "mittens@sk.com"
+date: "Oct. 26th 2017"
+output: ioslides_presentation
+---
+  
+  ```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Synopsis
+
+  The final project requires a shiny app and the presentation about that.
+  
+  Here, I built a simple neural net classifier with the sample iris dataset and try to figure out what is the name of your input data
+
+## The Shiny App
+
+  You can test my app published here. <link>
+  Just click and type some numbers. You can also see some boxplot distributions of the features of the iris dataset by selecting dropdown box.
+
+## The Model
+
+  This is the code for building simple neural network classifier.
+  Select only 90 observation from the total of 150 to training the model.
+
+```{r, fig.align='center', message=F, warning=F}
+library(caret)
+train<-createDataPartition(iris$Species, p=0.6, list=F)
+trainset<-iris[train,]
+testset<-iris[-train,]
+
+set.seed(2)
+model_nn<-train(Species~., data=trainset, method='nnet', preProcess=c('center','scale'))
+valid_nn<-predict(model_nn, trainset)
+result_nn<-confusionMatrix(valid_nn, trainset$Species)
+result_nn
+```
+
+
+## Test
+
+  You can test the model's accuracy by the test set which is not included for the training set from the iris dataset.
+
+```{r, fig.align='center', message=F, warning=F}
+
+test_nn<-predict(model_nn, testset)
+result_test_nn<-confusionMatrix(test_nn, testset$Species)
+result_test_nn
+```

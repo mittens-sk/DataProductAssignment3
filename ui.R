@@ -17,8 +17,13 @@ ui <- fluidPage(
                     "Petal Width" = "Petal.Width")),
       
       # Input: Checkbox for whether outliers should be included ----
-      checkboxInput("outliers", "Show outliers", TRUE)
+      checkboxInput("outliers", "Show outliers", TRUE),
       
+      textInput("sepal_Length","Sepal Length"),
+      textInput("sepal_Width","Sepal Width"),
+      textInput("pepal_Length","Pepal Length"),
+      textInput("pepal_Width","Pepal Width"),
+      actionButton("predict", "Predict")
     ),
     
     # Main panel for displaying outputs ----
