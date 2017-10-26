@@ -5,8 +5,10 @@ train<-createDataPartition(iris$Species, p=0.6, list=F)
 trainset<-iris[train,]
 testset<-iris[-train,]
 
+library(randomForest)
 set.seed(2)
-model_nn<-train(Species~., data=trainset, method='nnet', preProcess=c('center','scale'))
+model_rf<-randomForest(Species~., data=trainset)
+
 
 server <- function(input, output) {
   formulaText <- reactive({
@@ -25,7 +27,7 @@ server <- function(input, output) {
         title = "Prediction",
         as.character(
           predict(
-            model_nn, 
+            model_rf, 
             data.frame(
               Sepal.Length=as.numeric(input$sepal_Length), 
               Sepal.Width=as.numeric(input$sepal_Width), 

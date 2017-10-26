@@ -2,7 +2,9 @@
 title: "Third Assignment"
 author: "mittens@sk.com"
 date: "Oct. 26th 2017"
-output: ioslides_presentation
+output: 
+  ioslides_presentation:
+    smaller: true
 ---
   
   ```{r setup, include=FALSE}
@@ -17,35 +19,45 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## The Shiny App
 
-  You can test my app published here. <link>
+  You can test my app published [here](https://mittens.shinyapps.io/Proj3/).
   Just click and type some numbers. You can also see some boxplot distributions of the features of the iris dataset by selecting dropdown box.
 
 ## The Model
 
-  This is the code for building simple neural network classifier.
+  This is the code for building simple random forest classifier.
   Select only 90 observation from the total of 150 to training the model.
 
-```{r, fig.align='center', message=F, warning=F}
+```{r, message=F, warning=F}
 library(caret)
+library(randomForest)
+```
+
+```{r, echo=T, warning=F}
 train<-createDataPartition(iris$Species, p=0.6, list=F)
 trainset<-iris[train,]
 testset<-iris[-train,]
 
 set.seed(2)
-model_nn<-train(Species~., data=trainset, method='nnet', preProcess=c('center','scale'))
-valid_nn<-predict(model_nn, trainset)
-result_nn<-confusionMatrix(valid_nn, trainset$Species)
-result_nn
+model_rf<-randomForest(Species~., data=trainset)
+
+valid_rf<-predict(model_rf, trainset)
+result_rf<-confusionMatrix(valid_rf, trainset$Species)
 ```
 
+## The Model Result
+
+```{r, fig.align='center', message=F, warning=F}
+result_rf$overall
+result_rf$byClass
+```
 
 ## Test
 
   You can test the model's accuracy by the test set which is not included for the training set from the iris dataset.
 
-```{r, fig.align='center', message=F, warning=F}
-
-test_nn<-predict(model_nn, testset)
-result_test_nn<-confusionMatrix(test_nn, testset$Species)
-result_test_nn
+```{r, echo=T, warning=F}
+test_rf<-predict(model_rf, testset)
+result_test_rf<-confusionMatrix(test_rf, testset$Species)
+result_test_rf$overall
 ```
+
