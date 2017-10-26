@@ -8,7 +8,7 @@ ui <- fluidPage(
     
     # Sidebar panel for inputs ----
     sidebarPanel(
-      
+      p("Select features of the Iris and see the distribution of the sample datasets."),
       # Input: Selector for variable to plot against mpg ----
       selectInput("variable", "Variable:",
                   c("Sepal Length" = "Sepal.Length",
@@ -19,6 +19,7 @@ ui <- fluidPage(
       # Input: Checkbox for whether outliers should be included ----
       checkboxInput("outliers", "Show outliers", TRUE),
       
+      p("You can input your own values then click the button for prediction."),
       textInput("sepal_Length","Sepal Length"),
       textInput("sepal_Width","Sepal Width"),
       textInput("pepal_Length","Pepal Length"),
